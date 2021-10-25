@@ -1,5 +1,23 @@
 # Wordpress simple LikePlugin
 
+## data attributes
+
+### like button
+
+- __data-post__ => post_id
+- __data-liked__ => message to display if liked
+- __data-not-liked__ => message to display if not liked
+- __data-value__ => button state value (true if liked, false if not liked)
+
+### span counter
+
+- __data-display-0__ => Determines if the counter is displayed in case the post has 0 like (false => does not display the counter has 0 like)
+- __data-plural-word__ => character to display at the end of the word if more than one like (plural)
+- __data-word__ =>  word to display aside the counter
+- __data-value__ => counter value
+
+
+
 ## usage
 
 ```php

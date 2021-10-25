@@ -29,6 +29,7 @@ function handleLike(postID) {
         jQuery(like_counter).html(counter)
         jQuery(button).html(liked_state.is_liked == 0 ? isLikedMessage : isNotLikedMessage)
         jQuery(button).attr('data-value', liked_state.is_liked == 0 ? false : true)
+        jQuery(span_like_counter).attr('data-value', counter)
 
         console.log(counter)
         if(counter == 0 && !displayIfNull) 
@@ -73,6 +74,7 @@ jQuery(document).ready(function(){
 
         jQuery(button).html(response == 0 ? isLikedMessage : isNotLikedMessage)
         jQuery(button).attr('data-value', response == 0 ? false : true)
+        
 
         if(counter == 0 && !displayIfNull) 
             jQuery(span_like_counter).hide()

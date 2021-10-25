@@ -163,6 +163,7 @@ function the_like_counter(
 			data-display-0=\"$displayIf0\"
 			data-plural-word=\"$pluralWord\"
 			data-word=\"$word\"
+			data-value=$count
 		>
 			<span class=\"$class\" id=\"like-counter-$postID\">$count</span>
 			$wordspan
