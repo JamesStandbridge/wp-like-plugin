@@ -11,12 +11,14 @@
  * @param integer $postID
  * @param string $isLikedMessage default="Aimer"
  * @param string $isNotLikedMessage default="Ne plus aimer"
+ * @param string $class default = "like-button
  * @return string htmlButton
  */
 function the_like_button(
 	int $postID, 
 	?string $isLikedMessage = "Aimer", 
-	?string $isNotLikedMessage = "Ne plus aimer"
+	?string $isNotLikedMessage = "Ne plus aimer",
+	string $class = "like-button"
 ) : string;
 
 /**
