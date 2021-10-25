@@ -38,7 +38,7 @@ function handleLike(postID) {
             jQuery(span_like_counter).show()
 
         if(word != null) {
-            wordToWrite = counter > 1 ? word+pluralWord : word
+            wordToWrite = counter > 1 ? pluralWord : word
             jQuery(span_like_counter_word).html(wordToWrite)
         }
     });
@@ -75,12 +75,11 @@ jQuery(document).ready(function(){
         jQuery(button).html(response == 0 ? isLikedMessage : isNotLikedMessage)
         jQuery(button).attr('data-value', response == 0 ? false : true)
         
-
         if(counter == 0 && !displayIfNull) 
             jQuery(span_like_counter).hide()
 
         if(word != null) {
-            wordToWrite = counter > 1 ? word+pluralWord : word
+            wordToWrite = counter > 1 ? pluralWord : word
             jQuery(span_like_counter_word).html(wordToWrite)
         }
     });

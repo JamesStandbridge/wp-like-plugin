@@ -67,31 +67,55 @@ if(class_exists('LikePlugin')) {
 	$likePlugin = new LikePlugin();
 }
 
+require_once plugin_dir_path(__FILE__) . "admin/AdminCore.php";
+
+
 register_deactivation_hook(__FILE__, array($likePlugin, 'deactivate'));
 register_activation_hook(__FILE__, array($likePlugin, 'activate'));
 
 
-
-
-
-
 add_action('admin_menu', 'plugin_setup_menu');
  
-function plugin_setup_menu(){
+function plugin_setup_menu()
+{
     add_menu_page( 'LikePlugin Page', 'LikePlugin', 'manage_options', 'like-plugin', 'like_plugin_init' );
 }
  
-function like_plugin_init(){
-    echo "<h1>Hello World!</h1>";
+function like_plugin_init()
+{
+	my_admin_page_contents();
 }
 
 
 
+add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
+
+function load_custom_wp_admin_style($hook) 
+{
+	if($hook != 'toplevel_page_like-plugin')
+		return;
+
+	wp_enqueue_style( 'custom_wp_admin_css', 
+	plugins_url('AdminLikePlugin.css', __FILE__) );
+}
 
 
 
-
-
+/**
+ * Register default settings
+ */
+if ( get_option( 'like_message' ) === false ) 
+	update_option( 'like_message', 'Like');
+if ( get_option( 'unlike_message' ) === false ) 
+	update_option( 'unlike_message', 'Unlike');
+if ( get_option( 'display_counter_if_0' ) === false ) 
+	update_option( 'display_counter_if_0', '1');
+if ( get_option( 'counter_label' ) === false ) 
+	update_option( 'counter_label', 'Like');
+if ( get_option( 'counter_label_plural' ) === false ) 
+	update_option( 'counter_label_plural', 'Likes');
+if ( get_option( 'markdown_type' ) === false ) 
+	update_option( 'markdown_type', 'span');
 
 
 
@@ -103,19 +127,24 @@ function like_plugin_init(){
  * allowing you to "like" a post
  *
  * @param integer $postID
- * @param string $isLikedMessage default="Aimer"
- * @param string $isNotLikedMessage default="Ne plus aimer"
+ * @param string $isLikedMessage default=admin_option
+ * @param string $isNotLikedMessage default=admin_option
  * @param string $class default = "like-button
  * @return string htmlButton
  */
 function the_like_button(
 	int $postID, 
-	?string $isLikedMessage = "Aimer", 
-	?string $isNotLikedMessage = "Ne plus aimer",
+	?string $isLikedMessage = null, 
+	?string $isNotLikedMessage = null,
 	string $class = "like-button"
-) : string
+)
 {
-	return "
+	if(!$isLikedMessage)
+		$isLikedMessage = get_option('like_message');
+	if(!$isNotLikedMessage)
+		$isNotLikedMessage = get_option('unlike_message');
+
+	echo "
 		<button 
 			data-post=\"$postID\" 
 			data-liked=\"$isLikedMessage\" 
@@ -133,20 +162,28 @@ function the_like_button(
  * the number of likes of the given post
  *
  * @param integer $postID
- * @param bool    $displayIf0
- * @param string  $word default=null
- * @param string  $pluralWord default="s"
+ * @param bool    $displayIf0 default=admin_option
+ * @param string  $word default=admin_option
+ * @param string  $pluralWord default=admin_option
  * @param string  $class
  * @return string htmlSpan
  */
 function the_like_counter(
 	int $postID, 
-	bool $displayIf0 = true, 
+	?bool $displayIf0 = null, 
 	?string $word = null,
-	?string $pluralWord = "s",
-	?string $class = "like-counter"
-) : ?string
+	?string $pluralWord = null,
+	?string $class = null
+)
 {
+	if(!$displayIf0)
+		$displayIf0 = boolVal(get_option('display_counter_if_0'));
+
+	if(!$pluralWord)
+		$pluralWord = get_option('counter_label_plural');
+	if(!$word)
+		$word = get_option('counter_label');
+
 	$count = get_count_likes($postID);
 	
 
@@ -154,10 +191,12 @@ function the_like_counter(
 		$wordspan = "<span id=\"span-counter-like-word-$postID\" class=\"span-counter-like-word\">$word</span>";
 	else
 		$wordspan = null;
-
-	return 
+	
+	$markdown = get_option('markdown_type');
+	
+	echo 
 	"
-		<span 
+		<$markdown 
 			class=\"span-like-counter\"
 			id=\"span-like-counter-$postID\"
 			data-display-0=\"$displayIf0\"
@@ -167,7 +206,7 @@ function the_like_counter(
 		>
 			<span class=\"$class\" id=\"like-counter-$postID\">$count</span>
 			$wordspan
-		</span>
+		</$markdown>
 	";
 }
 
