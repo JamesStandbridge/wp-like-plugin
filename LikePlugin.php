@@ -105,7 +105,7 @@ function like_plugin_init(){
  * @param integer $postID
  * @return string htmlButton
  */
-function like_button(int $postID, ?string $isLikedMessage = "Aimer", ?string $isNotLikedMessage = "Ne plus aimer") : string
+function the_like_button(int $postID, ?string $isLikedMessage = "Aimer", ?string $isNotLikedMessage = "Ne plus aimer") : string
 {
 	return "
 	<button 
@@ -126,7 +126,7 @@ function like_button(int $postID, ?string $isLikedMessage = "Aimer", ?string $is
  * @param integer $postID
  * @return string htmlSpan
  */
-function like_counter(int $postID) : string
+function the_like_counter(int $postID) : string
 {
 	$count = get_count_likes($postID);
 	return "<span class=\"like-counter\" id=\"like-counter-$postID\">$count</span>";
