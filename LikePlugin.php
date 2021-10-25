@@ -103,9 +103,15 @@ function like_plugin_init(){
  * allowing you to "like" a post
  *
  * @param integer $postID
+ * @param string $isLikedMessage default="Aimer"
+ * @param string $isNotLikedMessage default="Ne plus aimer"
  * @return string htmlButton
  */
-function the_like_button(int $postID, ?string $isLikedMessage = "Aimer", ?string $isNotLikedMessage = "Ne plus aimer") : string
+function the_like_button(
+	int $postID, 
+	?string $isLikedMessage = "Aimer", 
+	?string $isNotLikedMessage = "Ne plus aimer"
+) : string
 {
 	return "
 	<button 
@@ -124,12 +130,41 @@ function the_like_button(int $postID, ?string $isLikedMessage = "Aimer", ?string
  * the number of likes of the given post
  *
  * @param integer $postID
+ * @param bool    $displayIf0
+ * @param string  $word default=null
+ * @param string  $pluralWord default="s"
+ * @param string  $class
  * @return string htmlSpan
  */
-function the_like_counter(int $postID) : string
+function the_like_counter(
+	int $postID, 
+	bool $displayIf0 = true, 
+	?string $word = null,
+	?string $pluralWord = "s",
+	?string $class = "like-counter"
+) : ?string
 {
 	$count = get_count_likes($postID);
-	return "<span class=\"like-counter\" id=\"like-counter-$postID\">$count</span>";
+	
+
+	if($word)
+		$wordspan = "<span id=\"span-counter-like-word-$postID\" class=\"span-counter-like-word\">$word</span>";
+	else
+		$wordspan = null;
+
+	return 
+	"
+		<span 
+			class=\"span-like-counter\"
+			id=\"span-like-counter-$postID\"
+			data-display-0=\"$displayIf0\"
+			data-plural-word=\"$pluralWord\"
+			data-word=\"$word\"
+		>
+			<span class=\"$class\" id=\"like-counter-$postID\">$count</span>
+			$wordspan
+		</span>
+	";
 }
 
 
