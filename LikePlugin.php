@@ -5,7 +5,7 @@
  */
 
 /*
-Plugin Name: LikePlugin
+Plugin Name: Simple Like
 Description: The lightest plugin to integrate a like in your posts
 Version: 1.0.0
 Author: james.standbridge.git@gmail.com
