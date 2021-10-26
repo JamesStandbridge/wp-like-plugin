@@ -6,7 +6,7 @@
 
 /*
 Plugin Name: LikePlugin
-Description: Make possible to like post
+Description: The lightest plugin to integrate a like in your posts
 Version: 1.0.0
 Author: james.standbridge.git@gmail.com
 Author URI: https://github.com/JamesStandbridge
