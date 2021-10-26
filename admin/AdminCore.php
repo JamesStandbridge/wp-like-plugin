@@ -138,11 +138,11 @@ function message_empty()
   echo "";
 }
 
-
 function display_counter_0_markup()
 {
     ?>
       <label class="switch">
+        <span class="off">OFF</span>
         <input
         <?php checked("1", get_option('display_counter_if_0'), true); ?>
         name='display_counter_if_0'
@@ -151,6 +151,7 @@ function display_counter_0_markup()
         value="1"
         >
         <span class="slider blue"></span>
+        <span class="on">ON</span>
       </label>
     <?php
 }
