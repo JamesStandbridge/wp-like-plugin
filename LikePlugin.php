@@ -14,19 +14,19 @@ Licence: GPLv2 or ob_deflatehandler
 Text Domain: LikePlugin
 */
 
-if (!defined('ABSPATH')) 
+if (!defined('ABSPATH'))
     exit;
 
 class LikePlugin
 {
 	function activate() {
 		global $wpdb;
-	
+
 		$table_name = $wpdb->prefix . 'liked_post';
 		$user_table = $wpdb->prefix . 'users';
 		$post_table = $wpdb->prefix . 'posts';
 		$charset_collate = $wpdb->get_charset_collate();
-		
+
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name
 		(
 			user_ip varchar(45) NOT NULL,
@@ -36,7 +36,7 @@ class LikePlugin
 			CONSTRAINT fk_post_liked FOREIGN KEY (post_id)
 			REFERENCES $post_table (ID)
 		) $charset_collate;";
-		
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 		dbDelta( $sql );
@@ -75,12 +75,12 @@ register_activation_hook(__FILE__, array($likePlugin, 'activate'));
 
 
 add_action('admin_menu', 'plugin_setup_menu');
- 
+
 function plugin_setup_menu()
 {
     add_menu_page( 'LikePlugin Page', 'LikePlugin', 'manage_options', 'like-plugin', 'like_plugin_init' );
 }
- 
+
 function like_plugin_init()
 {
 	my_admin_page_contents();
@@ -90,12 +90,12 @@ function like_plugin_init()
 
 add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
 
-function load_custom_wp_admin_style($hook) 
+function load_custom_wp_admin_style($hook)
 {
 	if($hook != 'toplevel_page_like-plugin')
 		return;
 
-	wp_enqueue_style( 'custom_wp_admin_css', 
+	wp_enqueue_style( 'custom_wp_admin_css',
 	plugins_url('AdminLikePlugin.css', __FILE__) );
 }
 
@@ -104,17 +104,17 @@ function load_custom_wp_admin_style($hook)
 /**
  * Register default settings
  */
-if ( get_option( 'like_message' ) === false ) 
+if ( get_option( 'like_message' ) === false )
 	update_option( 'like_message', 'Like');
-if ( get_option( 'unlike_message' ) === false ) 
+if ( get_option( 'unlike_message' ) === false )
 	update_option( 'unlike_message', 'Unlike');
-if ( get_option( 'display_counter_if_0' ) === false ) 
+if ( get_option( 'display_counter_if_0' ) === false )
 	update_option( 'display_counter_if_0', '1');
-if ( get_option( 'counter_label' ) === false ) 
+if ( get_option( 'counter_label' ) === false )
 	update_option( 'counter_label', 'Like');
-if ( get_option( 'counter_label_plural' ) === false ) 
+if ( get_option( 'counter_label_plural' ) === false )
 	update_option( 'counter_label_plural', 'Likes');
-if ( get_option( 'markdown_type' ) === false ) 
+if ( get_option( 'markdown_type' ) === false )
 	update_option( 'markdown_type', 'span');
 
 
@@ -123,7 +123,7 @@ if ( get_option( 'markdown_type' ) === false )
 
 
 /**
- * This function allows you to generate a button 
+ * This function allows you to generate a button
  * allowing you to "like" a post
  *
  * @param integer $postID
@@ -133,8 +133,8 @@ if ( get_option( 'markdown_type' ) === false )
  * @return string htmlButton
  */
 function the_like_button(
-	int $postID, 
-	?string $isLikedMessage = null, 
+	int $postID,
+	?string $isLikedMessage = null,
 	?string $isNotLikedMessage = null,
 	string $class = "like-button"
 )
@@ -145,11 +145,11 @@ function the_like_button(
 		$isNotLikedMessage = get_option('unlike_message');
 
 	echo "
-		<button 
-			data-post=\"$postID\" 
-			data-liked=\"$isLikedMessage\" 
-			data-not-liked=\"$isNotLikedMessage\" 
-			onclick=\"handleLike($postID)\" 
+		<button
+			data-post=\"$postID\"
+			data-liked=\"$isLikedMessage\"
+			data-not-liked=\"$isNotLikedMessage\"
+			onclick=\"handleLike($postID)\"
 			class=\"$class\"
 			id=\"like-button-$postID\"
 		>
@@ -158,7 +158,7 @@ function the_like_button(
 }
 
 /**
- * This function retrieves a span tag displaying 
+ * This function retrieves a span tag displaying
  * the number of likes of the given post
  *
  * @param integer $postID
@@ -169,8 +169,8 @@ function the_like_button(
  * @return string htmlSpan
  */
 function the_like_counter(
-	int $postID, 
-	?bool $displayIf0 = null, 
+	int $postID,
+	?bool $displayIf0 = null,
 	?string $word = null,
 	?string $pluralWord = null,
 	?string $class = null
@@ -185,18 +185,18 @@ function the_like_counter(
 		$word = get_option('counter_label');
 
 	$count = get_count_likes($postID);
-	
+
 
 	if($word)
 		$wordspan = "<span id=\"span-counter-like-word-$postID\" class=\"span-counter-like-word\">$word</span>";
 	else
 		$wordspan = null;
-	
+
 	$markdown = get_option('markdown_type');
-	
-	echo 
+
+	echo
 	"
-		<$markdown 
+		<$markdown
 			class=\"span-like-counter\"
 			id=\"span-like-counter-$postID\"
 			data-display-0=\"$displayIf0\"
@@ -227,13 +227,13 @@ function get_count_likes(int $postID) : int
 }
 
 /**
- * This function takes as argument the id of 
- * a post and the ip of a user. Allows to change 
+ * This function takes as argument the id of
+ * a post and the ip of a user. Allows to change
  * the state of the like of a post for an ip.
  *
  * @return void
  */
-function like_post_action() 
+function like_post_action()
 {
 	require_once plugin_dir_path(__FILE__) . "/src/LikeManager.php";
 	$manager = new LikeManager();
@@ -252,7 +252,7 @@ add_action( 'wp_ajax_nopriv_like_post', 'like_post_action' );
 
 /**
  * Ajax function
- * This function takes as argument the user's ip and the post id. 
+ * This function takes as argument the user's ip and the post id.
  * Return the state of the post like : 1 or 0
  *
  * @return void
@@ -283,17 +283,29 @@ add_action( 'wp_enqueue_scripts', 'my_custom_script_load' );
 function my_custom_script_load()
 {
 		wp_enqueue_script(
-			'my-custom-script', 
-			plugin_dir_url( __FILE__ ) . '/js/script.js', array('jquery') 
+			'my-custom-script',
+			plugin_dir_url( __FILE__ ) . '/js/script.js', array('jquery')
 		);
 
 		wp_add_inline_script(
-			'my-custom-script', 
-			'const LikePlugin = ' . json_encode( 
+			'my-custom-script',
+			'const LikePlugin = ' . json_encode(
 				array(
 					'ajaxUrl' => admin_url( 'admin-ajax.php' )
-				) 
-			), 
-			'before' 
+				)
+			),
+			'before'
 		);
 }
+
+/**
+ * Add settings link to plugin actions
+*/
+function my_plugin_settings_link($links)
+{
+  $settings_link = '<a href="admin.php?page=like-plugin">Settings</a>';
+  array_unshift($links, $settings_link);
+  return $links;
+}
+$plugin = plugin_basename(__FILE__);
+add_filter("plugin_action_links_$plugin", 'my_plugin_settings_link' );
