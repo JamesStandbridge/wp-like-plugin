@@ -17,6 +17,8 @@ Text Domain: LikePlugin
 if (!defined('ABSPATH'))
     exit;
 
+define( 'LIKEPLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
 class LikePlugin
 {
 	function activate() {
@@ -69,36 +71,32 @@ if(class_exists('LikePlugin')) {
 
 require_once plugin_dir_path(__FILE__) . "admin/AdminCore.php";
 
-
 register_deactivation_hook(__FILE__, array($likePlugin, 'deactivate'));
 register_activation_hook(__FILE__, array($likePlugin, 'activate'));
 
 
 add_action('admin_menu', 'plugin_setup_menu');
 
-function plugin_setup_menu()
-{
-    add_menu_page( 'LikePlugin Page', 'LikePlugin', 'manage_options', 'like-plugin', 'like_plugin_init' );
-}
-
 function like_plugin_init()
 {
 	my_admin_page_contents();
 }
 
+function plugin_setup_menu()
+{
+    add_submenu_page('options-general.php', 'LikePlugin Page', 'LikePlugin', 'manage_options', 'like-plugin', 'like_plugin_init' );
+}
 
-
-add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
 
 function load_custom_wp_admin_style($hook)
 {
-	if($hook != 'toplevel_page_like-plugin')
+	if($hook != 'settings_page_like-plugin')
 		return;
 
 	wp_enqueue_style( 'custom_wp_admin_css',
 	plugins_url('AdminLikePlugin.css', __FILE__) );
 }
-
+add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
 
 
 /**
@@ -116,9 +114,6 @@ if ( get_option( 'counter_label_plural' ) === false )
 	update_option( 'counter_label_plural', 'Likes');
 if ( get_option( 'markdown_type' ) === false )
 	update_option( 'markdown_type', 'span');
-
-
-
 
 
 

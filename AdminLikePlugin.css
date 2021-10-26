@@ -1,10 +1,10 @@
-.toplevel_page_like-plugin #wpcontent {
+.settings_page_like-plugin #wpcontent {
   height: calc( 100vh - 32px);
   padding-left: 20px;
   background: #efdcd657;
 }
-.toplevel_page_like-plugin input[type=text],
-.toplevel_page_like-plugin   select{border: none}
+.settings_page_like-plugin input[type=text],
+.settings_page_like-plugin   select{border: none}
 .switch {
   position: relative;
   display: inline-block;
@@ -48,7 +48,7 @@ input:checked + .slider::before {
 input:checked + .blue {border-color: #2271b1}
 input:checked + .blue::before {background-color: #2271b1}
 
-.toplevel_page_like-plugin  #submit{
+.settings_page_like-plugin  #submit{
   padding: 8px 24px;
   text-align: center;
   background: #2271b1;

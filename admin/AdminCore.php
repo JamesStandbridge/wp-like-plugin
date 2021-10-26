@@ -117,9 +117,7 @@ function display_counter_0_markup()
     ?>
       <label class="switch">
         <input
-          <?php
-          checked("1", get_option('display_counter_if_0'), true);
-         ?>
+        <?php checked("1", get_option('display_counter_if_0'), true); ?>
         name='display_counter_if_0'
         id='display_counter_if_0'
         type="checkbox"
