@@ -1,5 +1,5 @@
 <?php
-function my_admin_page_contents() 
+function my_admin_page_contents()
 {
     ?>
     <h1>Like Plugin settings</h1>
@@ -16,7 +16,7 @@ function my_admin_page_contents()
 
 add_action( 'admin_init', 'my_settings_init' );
 
-function my_settings_init() 
+function my_settings_init()
 {
 
     add_settings_section(
@@ -50,7 +50,7 @@ function my_settings_init()
         'display_counter_0_markup',
         'like-plugin',
         'like_plugin_settings_section'
-    );  
+    );
     register_setting( 'like-plugin', 'display_counter_if_0' );
 
     add_settings_field(
@@ -59,7 +59,7 @@ function my_settings_init()
         'counter_label_markup',
         'like-plugin',
         'like_plugin_settings_section'
-    ); 
+    );
     register_setting( 'like-plugin', 'counter_label' );
 
     add_settings_field(
@@ -68,7 +68,7 @@ function my_settings_init()
         'counter_label_plural_markup',
         'like-plugin',
         'like_plugin_settings_section'
-    ); 
+    );
     register_setting( 'like-plugin', 'counter_label_plural' );
 
     add_settings_field(
@@ -77,12 +77,12 @@ function my_settings_init()
         'markdown_type_markup',
         'like-plugin',
         'like_plugin_settings_section'
-    ); 
+    );
     register_setting( 'like-plugin', 'markdown_type' );
 }
 
 
-function like_plugin_settings_section_template() 
+function like_plugin_settings_section_template()
 {
     echo '';
 }
@@ -98,49 +98,47 @@ function markdown_type_markup()
     echo "</select>";
 }
 
-function like_message_markup() 
+function like_message_markup()
 {
     ?>
     <input type="text" id="like_message" name="like_message" value="<?php echo get_option( 'like_message' ); ?>">
     <?php
 }
 
-function unlike_message_markup() {
+function unlike_message_markup()
+{
     ?>
     <input type="text" id="unlike_message" name="unlike_message" value="<?php echo get_option( 'unlike_message' ); ?>">
     <?php
 }
 
-function display_counter_0_markup() {
+function display_counter_0_markup()
+{
     ?>
-    <label>
-        <input 
-            <?php checked("1", get_option('display_counter_if_0'), true); ?> 
-            value='1' 
-            name='display_counter_if_0' 
-            id='display_counter_if_0' 
-            type='radio' 
-        />True
-    </label>
-    <label>
-        <input 
-            <?php checked("0", get_option('display_counter_if_0'), true); ?> 
-            value='0' 
-            name='display_counter_if_0' 
-            id='display_counter_if_0'
-            type='radio' 
-        />False
-    </label>
+      <label class="switch">
+        <input
+          <?php
+          checked("1", get_option('display_counter_if_0'), true);
+         ?>
+        name='display_counter_if_0'
+        id='display_counter_if_0'
+        type="checkbox"
+        value="1"
+        >
+        <span class="slider blue"></span>
+      </label>
     <?php
 }
 
-function counter_label_markup() {
+function counter_label_markup()
+{
     ?>
     <input type="text" id="counter_label" name="counter_label" value="<?php echo get_option( 'counter_label' ); ?>">
     <?php
 }
 
-function counter_label_plural_markup() {
+function counter_label_plural_markup()
+{
     ?>
     <input type="text" id="counter_label_plural" name="counter_label_plural" value="<?php echo get_option( 'counter_label_plural' ); ?>">
     <?php
