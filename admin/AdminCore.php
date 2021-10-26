@@ -27,6 +27,15 @@ function my_settings_init()
     );
 
     add_settings_field(
+        'message_like_unlike',
+        'Like/Unlike options',
+        'message_empty',
+        'like-plugin',
+        'like_plugin_settings_section'
+    );
+    register_setting( 'like-plugin', 'message_counter' );
+
+    add_settings_field(
         'like_message',
         'Like message',
         'like_message_markup',
@@ -34,6 +43,7 @@ function my_settings_init()
         'like_plugin_settings_section'
     );
     register_setting( 'like-plugin', 'like_message' );
+
 
     add_settings_field(
         'unlike_message',
@@ -43,6 +53,16 @@ function my_settings_init()
         'like_plugin_settings_section'
     );
     register_setting( 'like-plugin', 'unlike_message' );
+
+    add_settings_field(
+        'message_counter',
+        'Counter options',
+        'message_empty',
+        'like-plugin',
+        'like_plugin_settings_section'
+    );
+    register_setting( 'like-plugin', 'message_counter' );
+
 
     add_settings_field(
         'display_counter_if_0',
@@ -87,6 +107,7 @@ function like_plugin_settings_section_template()
     echo '';
 }
 
+
 function markdown_type_markup()
 {
     $items = ["span", "div", "p"];
@@ -111,6 +132,12 @@ function unlike_message_markup()
     <input type="text" id="unlike_message" name="unlike_message" value="<?php echo get_option( 'unlike_message' ); ?>">
     <?php
 }
+
+function message_empty()
+{
+  echo "";
+}
+
 
 function display_counter_0_markup()
 {

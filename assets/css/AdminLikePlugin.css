@@ -47,7 +47,6 @@ input:checked + .slider::before {
 }
 input:checked + .blue {border-color: #2271b1}
 input:checked + .blue::before {background-color: #2271b1}
-
 .settings_page_like-plugin  #submit{
   padding: 8px 24px;
   text-align: center;
@@ -56,4 +55,12 @@ input:checked + .blue::before {background-color: #2271b1}
   font-weight: bold;
   border-radius: 4px;
   line-height: 1.53846;
+}
+.settings_page_like-plugin  table tr:nth-of-type(1) th,
+.settings_page_like-plugin  table tr:nth-of-type(4) th{
+  font-size: 21px;
+  margin: 15px 0px;
+  clear: revert;
+  display: block;
+  text-decoration: underline;
 }
