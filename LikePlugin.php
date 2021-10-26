@@ -88,13 +88,12 @@ function plugin_setup_menu()
 }
 
 
+
 function load_custom_wp_admin_style($hook)
 {
 	if($hook != 'settings_page_like-plugin')
 		return;
-
-	wp_enqueue_style( 'custom_wp_admin_css',
-	plugins_url('AdminLikePlugin.css', __FILE__) );
+	wp_enqueue_style( 'custom_wp_admin_css', plugins_url('assets/css/AdminLikePlugin.min.css', __FILE__) );
 }
 add_action('admin_enqueue_scripts', 'load_custom_wp_admin_style');
 
@@ -273,13 +272,13 @@ add_action( 'wp_ajax_nopriv_get_post_like_state', 'get_post_current_like_state' 
  * Loading jquery scripts in the front end.
  * Insert LikePlugin const variable to access to ajax url
  */
-add_action( 'wp_enqueue_scripts', 'my_custom_script_load' );
+add_action( 'wp_footer', 'my_custom_script_load' );
 
 function my_custom_script_load()
 {
 		wp_enqueue_script(
 			'my-custom-script',
-			plugin_dir_url( __FILE__ ) . '/js/script.js', array('jquery')
+			plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array('jquery')
 		);
 
 		wp_add_inline_script(
