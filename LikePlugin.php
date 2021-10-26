@@ -69,7 +69,7 @@ if(class_exists('LikePlugin')) {
 	$likePlugin = new LikePlugin();
 }
 
-require_once plugin_dir_path(__FILE__) . "admin/AdminCore.php";
+require_once LIKEPLUGIN_DIR . "admin/AdminCore.php";
 
 register_deactivation_hook(__FILE__, array($likePlugin, 'deactivate'));
 register_activation_hook(__FILE__, array($likePlugin, 'activate'));
@@ -213,7 +213,7 @@ function the_like_counter(
  */
 function get_count_likes(int $postID) : int
 {
-	require_once plugin_dir_path(__FILE__) . "/src/LikeManager.php";
+	require_once LIKEPLUGIN_DIR . "/src/LikeManager.php";
 	$manager = new LikeManager();
 	$count = $manager->countLikes($postID);
 
@@ -229,7 +229,7 @@ function get_count_likes(int $postID) : int
  */
 function like_post_action()
 {
-	require_once plugin_dir_path(__FILE__) . "/src/LikeManager.php";
+	require_once LIKEPLUGIN_DIR . "/src/LikeManager.php";
 	$manager = new LikeManager();
 
 	$user_ip = $_SERVER['REMOTE_ADDR'];
@@ -253,7 +253,7 @@ add_action( 'wp_ajax_nopriv_like_post', 'like_post_action' );
  */
 function get_post_current_like_state()
 {
-	require_once plugin_dir_path(__FILE__) . "/src/LikeManager.php";
+	require_once LIKEPLUGIN_DIR . "/src/LikeManager.php";
 	$manager = new LikeManager();
 
 	$user_ip = $_SERVER['REMOTE_ADDR'];
