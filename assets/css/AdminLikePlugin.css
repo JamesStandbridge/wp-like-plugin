@@ -4,7 +4,7 @@
   background: #efdcd657;
 }
 .settings_page_like-plugin input[type=text],
-.settings_page_like-plugin   select{border: none}
+.settings_page_like-plugin select{border: none;max-width: 95%;}
 .switch {
   position: relative;
   display: inline-block;
